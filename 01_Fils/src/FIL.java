@@ -1,18 +1,27 @@
 public class FIL extends Thread {
 
-
-    public FIL(String name) {
+    private int delay;
+    public FIL(String name,int priority, int delay) {
         super(name);
+        this.delay = delay;
+        setPriority(priority);
     } 
     
     @Override
     public void run(){
         for (int i = 1; i < 10 ; i++) {
             System.out.printf("%s %d%n",getName(),i);
-            for (int j = 0; j < 1000; j++) {
-                
-            }
+
+        
+            
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            
         }
+        
         System.out.println("Acaba el fil "+getName());
     }
     
