@@ -1,40 +1,55 @@
-import java.util.Random;
 
 public class Motor extends Thread {
-    private int potenciaAct ;
-    private int potenciaObj ; 
-    private int numMotor ;
-    private Random random = new Random();
-    public Motor(int numMotor ){
-        this.numMotor = numMotor;
-        this.potenciaAct = 0;
-        this.potenciaObj = 0;
-    }
-    public void setPotencia(int p){
-        this.potenciaObj = p;
-    }
-    @Override
-    public void run(){
-        while (potenciaAct != 0 || potenciaObj != 0) {
-                try{
-                    if(potenciaAct!= potenciaObj){
-                        int intervalAleatori = random.nextInt(1001)+1000;
-                        Thread.sleep(intervalAleatori);
-                        if(potenciaAct < potenciaObj){
-                            potenciaAct ++;
-                            System.out.println("Motor " + numMotor + ": Incre. Objectiu: " + potenciaObj + " Actual: " + potenciaAct);
-                        }else{
-                            potenciaAct --;
-                            System.out.println("Motor " + numMotor + ": Decre. Objectiu: " + potenciaObj + " Actual: " + potenciaAct);
-                        }
-                    }else{
-                        Thread.sleep(100);
-                    }
+    private int PotObjectiu = 0;
+    private int potActual = 0;
+    private String estat;
+    private boolean running = true; 
 
-                }catch(InterruptedException e) {
+    public Motor(String name) {
+        super(name);
+    }
+
+    public void setPotencia(int p) {
+        this.PotObjectiu = p;
+    }
+
+    @Override
+    public void run() {
+        while (running) {
+            while (potActual != PotObjectiu) {
+                try {
+                    
+                    Thread.sleep((int) (Math.random() * 1000) + 1000);
+                } catch (InterruptedException e) {
                     e.printStackTrace();
+                }
+
+                if (PotObjectiu < potActual) {
+                    potActual--;
+                    estat = "Decre.";
+                } else {
+                    potActual++;
+                    estat = "Incre.";
+                }
+
+                System.out.println(String.format("%s: %s Objectiu: %d Actual: %d", 
+                    getName(), estat, PotObjectiu, potActual));
             }
-            
+
+            if (PotObjectiu == 0 && potActual == 0) {
+                running = false;
+            } else {
+                System.out.println(String.format("%s: FerRes Objectiu: %d Actual: %d", 
+                    getName(), PotObjectiu, potActual));
+                
+                while (potActual == PotObjectiu && PotObjectiu != 0) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 }
