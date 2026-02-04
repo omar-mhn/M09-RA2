@@ -1,7 +1,7 @@
 # M09-RA2
 ## 1. Per què s'atura l'execució al cap d'un temps?
 Se detiene porque todos los hilos terminan esperando a que alguien cancele su reserva. Como las acciones de reservar y cancelar son aleatorias, llega un momento en el que todos los hilos se quedan bloqueados en estado de espera (wait()), esperando a que otro hilo libere una plaza.
-##2. Què passaria si en lloc de una probabilitat de 50%-50% fora de 70%(ferReserva)-30%(cancel·lar) I si foren al revés les probabilitats? -> Mostra la porció de codi modificada i la sortida resultant en cada un dels 2 casos.
+## 2. Què passaria si en lloc de una probabilitat de 50%-50% fora de 70%(ferReserva)-30%(cancel·lar) I si foren al revés les probabilitats? -> Mostra la porció de codi modificada i la sortida resultant en cada un dels 2 casos.
 
 ### Caso A: 70% Reserva / 30% Cancelar:
  El evento se llenará muy rápido. Habrá muchos hilos en estado de espera (wait()) y el programa se bloqueará casi de inmediato porque la tasa de liberación es muy baja.
