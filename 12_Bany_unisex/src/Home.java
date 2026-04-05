@@ -6,7 +6,7 @@ public class Home extends Thread {
     Random rd = new Random();
 
     public Home(String nom, BanyUnisex lavabo){
-        super(nom);
+        this.nom = nom;
         this.lavabo = lavabo;
     }
     @Override

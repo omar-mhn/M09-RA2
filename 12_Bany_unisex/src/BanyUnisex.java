@@ -56,6 +56,7 @@ public class BanyUnisex {
             capacitat.release();
             if(ocupants == 0){
                 estatActual = BANY_BUIT;
+                System.out.println("El bany està buit");
             }
         }finally{
             lockEstat.unlock();
@@ -63,10 +64,32 @@ public class BanyUnisex {
 
     }
     public void surtDone(String nom){
-
+        lockEstat.lock(); 
+        try {
+            ocupants--; 
+            System.out.println("Dona surt del bany. Ocupants: " + ocupants);
+            capacitat.release(); 
+            if (ocupants == 0) { 
+                estatActual = BANY_BUIT;
+                System.out.println("El bany està buit");
+            }
+        } finally {
+            lockEstat.unlock();
+        }
     }
+    
 
     public static void main(String[] args) {
-        
+        BanyUnisex lavabo = new BanyUnisex();
+
+        for (int i = 0; i < 5; i++) {
+            Home h = new Home("Home-" + i, lavabo);
+            h.start();
+        }
+
+        for (int i = 0; i < 5; i++) {
+            Dona d = new Dona("Dona-" + i, lavabo);
+            d.start();
+        }
     }
 }

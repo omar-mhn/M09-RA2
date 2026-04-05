@@ -6,7 +6,7 @@ public class Dona extends Thread{
     Random rd = new Random();
 
     public Dona(String nom, BanyUnisex lavabo){
-        super(nom);
+        this.nom = nom;
         this.lavabo =lavabo;
     }
     @Override
